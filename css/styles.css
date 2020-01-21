@@ -48,10 +48,82 @@ h1 {
     transform: scale(0.9);
 }
 
+.book {
+    margin-top: 30px;
+    margin-left: 20px;
+}
+
+.cover, .info, .options {
+    display: inline-block;
+}
+
 img.cover {
     height: 150px;
     width: 100px;
     border-radius: 10px;
+    float: left;
+}
+
+.info {
+    position: relative;
+    left: 20px;
+    top: 10px;
+    float: left;
+}
+
+.options {
+    position: relative;
+    right: 24px;
+    float: right;
+}
+
+.options button {
+    background: white;
+    padding: 10px 10px;
+    border-radius: 4px;
+    font-size: 12px;
+    margin: 7px 0;
+    outline: none;
+    width: 80px;
+    transition: all 0.2s;
+}
+
+.options button:active {
+    transform: scale(0.9); 
+}
+
+.markRead {
+    border: 1px solid black;
+    color: black;
+}
+
+.markRead:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+.edit:hover {
+    background-color: rgba(255, 157, 0, 0.2);
+}
+
+.delete:hover {
+    background-color: rgba(255, 0, 0, 0.1);
+}
+
+.markRead[read] {
+    border: 1px solid rgb(53, 196, 53);
+    color: white;
+    font-weight: bold;
+    background-color: rgb(53, 196, 53);
+}
+
+.edit {
+    border: 1px solid rgb(255, 157, 0);
+    color: rgb(255, 157, 0);
+}
+
+.delete {
+    border: 1px solid red;
+    color: red;
 }
 
 footer {
