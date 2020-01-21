@@ -8,12 +8,12 @@ html {
     background-color: white;
     border-radius: 10px;
     width: 600px;
-    height: 600px;
-    margin: 50px auto;
+    height: 550px;
+    margin: 20px auto;
 }
 
 div#header {
-    padding-top: 25px;
+    padding-top: 15px;
     padding-left: 20px;
 }
 
@@ -28,7 +28,7 @@ h1 {
 #add {
     position: relative;
     right: -350px;
-    top: -10px;
+    top: -4px;
     background: #4285f4;
     color: #fff;
     border: 1px solid #4285f4;
@@ -48,8 +48,13 @@ h1 {
     transform: scale(0.9);
 }
 
+#list {
+    overflow-y: scroll;
+    height: 475px;
+}
+
 .book {
-    margin-top: 30px;
+    margin-top: 10px;
     margin-left: 20px;
 }
 
@@ -68,7 +73,7 @@ img.cover {
     position: relative;
     left: 20px;
     top: 5px;
-    width: 345px;
+    width: 330px;
     overflow-wrap: break-word;
 }
 
@@ -79,7 +84,7 @@ div.title {
 div.title {
     font-size: 24px;
     font-weight: bold;
-    width: 345px;
+    width: 330px;
 }
 
 span.year {
@@ -95,11 +100,12 @@ div.author {
     margin: 6px 0;
     color: grey;
     font-size: 20px;
+    width: 330px;
 }
 
-div.summary {
+div.description {
     display: inline-block;
-    width: 345px;
+    width: 330px;
 }
 
 .options {
@@ -167,6 +173,9 @@ footer {
     height: 50px;
     padding-left: 5px;
     border-top: 1px solid black;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
 }
 
 img.contact {
