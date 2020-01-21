@@ -9,7 +9,7 @@ html {
     border-radius: 10px;
     width: 600px;
     height: 550px;
-    margin: 20px auto;
+    margin: 18px auto;
 }
 
 div#header {
@@ -58,6 +58,12 @@ h1 {
     margin-left: 20px;
 }
 
+.book::after {
+    content: "";
+    clear: both;
+    display: table;
+  }
+
 .cover, .info, .options {
     display: inline-block;
 }
@@ -71,7 +77,7 @@ img.cover {
 
 .info {
     position: relative;
-    left: 20px;
+    left: 22px;
     top: 5px;
     width: 330px;
     overflow-wrap: break-word;
@@ -104,13 +110,12 @@ div.author {
 }
 
 div.description {
-    display: inline-block;
     width: 330px;
 }
 
 .options {
     position: relative;
-    right: 24px;
+    right: 22px;
     float: right;
 }
 
@@ -173,9 +178,8 @@ footer {
     height: 50px;
     padding-left: 5px;
     border-top: 1px solid black;
-    position: fixed;
+    position: relative;
     bottom: 0;
-    width: 100%;
 }
 
 img.contact {
