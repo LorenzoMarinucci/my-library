@@ -67,8 +67,39 @@ img.cover {
 .info {
     position: relative;
     left: 20px;
-    top: 10px;
-    float: left;
+    top: 5px;
+    width: 345px;
+    overflow-wrap: break-word;
+}
+
+div.title {
+    display: inline-block;
+}
+
+div.title {
+    font-size: 24px;
+    font-weight: bold;
+    width: 345px;
+}
+
+span.year {
+    position: relative;
+    top: -2px;
+    margin-left: 10px;
+    font-size: 16px;
+    color: grey;
+    font-weight: normal;
+}
+
+div.author {
+    margin: 6px 0;
+    color: grey;
+    font-size: 20px;
+}
+
+div.summary {
+    display: inline-block;
+    width: 345px;
 }
 
 .options {
@@ -137,8 +168,6 @@ footer {
     padding-left: 5px;
     border-top: 1px solid black;
 }
-
-
 
 img.contact {
     width: 20px;
