@@ -27,7 +27,7 @@ h1 {
 
 #add {
     position: relative;
-    right: -350px;
+    right: -335px;
     top: -4px;
     background: #4285f4;
     color: #fff;
@@ -140,7 +140,8 @@ div.description {
 }
 
 .markRead:hover {
-    background-color: rgba(0, 0, 0, 0.1);
+    background-color: rgb(53, 196, 53, 0.1);
+    border-color: rgb(53, 196, 53);
 }
 
 .edit:hover {
@@ -156,6 +157,11 @@ div.description {
     color: white;
     font-weight: bold;
     background-color: rgb(53, 196, 53);
+}
+
+.markRead[read]:hover {
+    border-color: grey;
+    background-color: grey;;
 }
 
 .edit {
