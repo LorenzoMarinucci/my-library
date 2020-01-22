@@ -1,26 +1,42 @@
 let myLibrary = [];
 const list = document.getElementById("list");
+      deleteButtons = document.getElementsByClassName('delete');
+      editButtons = document.getElementsByClassName('edit');
+      markReadButtons = document.getElementsByClassName('markRead');
+      addBook = document.getElementById('add');
 
-function Book(name, author, year, description, image, read) {
+function Book(name, author, year, description, image) { //constructor del objeto libro
     this.name = name;
     this.author = author;
     this.year = year;
     this.description = description;
     this.image = image;
-    this.read = read;
+    this.read = false;
 }
 
-function addBookToLibrary() {
+Book.prototype.toggleRead = function(e) {
+    if (this.read) 
+        e.target.textContent = 'Read';
+    else
+        e.target.textContent = 'Read ✓';
+    this.read = !this.read;
+    e.target.toggleAttribute('read');
+}
+
+markReadButtons.forEach(button => button.addEventListener('click', e => myLibrary[e.target.parentNode.getAttribute('data-index')].toggleRead(e)));
+
+
+function addBookToLibrary() {  //función temporal para añadir libros.
     name = prompt("Book's name");
     author = prompt("Book's author");
     year = prompt("Book's year");
     description = prompt("Book's description");
     image = prompt("Book's image");
-    read = !!prompt("did you read the book?");
-    myLibrary.push(new Book(name, author, year, description, image, read));
+    myLibrary.push(new Book(name, author, year, description, image));
+    render(myLibrary[myLibrary.length-1], myLibrary.length-1);
 }
 
-function render(elem) {
+function render(elem, index) {  //creacion de los elementos HTML pertenecientes a cada libro
     let book = document.createElement('div');
     book.classList.add('book');
     let img = document.createElement('img');
@@ -52,13 +68,10 @@ function render(elem) {
         edit = document.createElement('button');
         deleteButton = document.createElement('button');
     options.classList.add('options');
+    options.setAttribute('data-index', index);
     markRead.classList.add('markRead');
-    if (elem.read) {
-        markRead.textContent = "Read ✓";
-        markRead.toggleAttribute('read');
-    }
-    else
-        markRead.textContent = "Read";
+    markRead.textContent = 'Read';
+    markRead.addEventListener('click', e => myLibrary[e.target.parentNode.getAttribute('data-index')].toggleRead(e));
     edit.classList.add('edit');
     edit.textContent = "Edit";
     deleteButton.classList.add('delete');
