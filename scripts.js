@@ -14,6 +14,29 @@ function Book(name, author, year, description, image) { //constructor del objeto
     this.read = false;
 }
 
+let Book1 = {
+    author: "Orwell",
+    name: "1984",
+    year: "1940",
+    description: "le book",
+    image: "none",
+    read: false,
+}
+
+let Book2 = {
+    author: "Huxley",
+    name: "Brave New World",
+    year: "1950",
+    description: "le book",
+    image: "none",
+    read: false,
+}
+
+myLibrary.push(Book1);
+myLibrary.push(Book2);
+
+window.addEventListener('load', () => myLibrary.forEach(book => render(book)));
+
 Book.prototype.toggleRead = function(e) {
     if (this.read) 
         e.target.textContent = 'Read';
@@ -24,7 +47,14 @@ Book.prototype.toggleRead = function(e) {
 }
 
 markReadButtons.forEach(button => button.addEventListener('click', e => myLibrary[e.target.parentNode.getAttribute('data-index')].toggleRead(e)));
+deleteButtons.forEach(button => button.addEventListener('click', e => deleteBook(e)));
 
+function deleteBook(e) {
+       const bookIndex = e.target.parentNode.getAttribute('data-index');
+             node = e.target.parentNode.parentNode; // nodo book;
+       delete myLibrary[bookIndex];
+       node.parentNode.removeChild(node);
+}
 
 function addBookToLibrary() {  //función temporal para añadir libros.
     name = prompt("Book's name");
@@ -76,6 +106,7 @@ function render(elem, index) {  //creacion de los elementos HTML pertenecientes 
     edit.textContent = "Edit";
     deleteButton.classList.add('delete');
     deleteButton.textContent = "Delete";
+    deleteButton.addEventListener('click', e => deleteBook(e));
     options.appendChild(markRead);
     options.appendChild(document.createElement("br"));
     options.appendChild(deleteButton);
@@ -83,6 +114,6 @@ function render(elem, index) {  //creacion de los elementos HTML pertenecientes 
     options.appendChild(edit);
     book.appendChild(options);
     console.log(book);
-    list.appendChild(document.createElement("br"));
+    //list.appendChild(document.createElement("br"));
     list.appendChild(book);
 }
