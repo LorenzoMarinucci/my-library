@@ -1,9 +1,14 @@
 let myLibrary = [];
+    edit = {status: true, id: ""};
 const list = document.getElementById("list");
       deleteButtons = document.getElementsByClassName('delete');
       editButtons = document.getElementsByClassName('edit');
       markReadButtons = document.getElementsByClassName('markRead');
       addBook = document.getElementById('add');
+      cancel = document.getElementById('cancel');
+      submit = document.getElementById('submit');
+      form = document.querySelector('form');
+      formDiv = document.getElementById('form');
 
 function Book(name, author, year, description, image) { //constructor del objeto libro
     this.name = name;
@@ -14,7 +19,7 @@ function Book(name, author, year, description, image) { //constructor del objeto
     this.read = false;
 }
 
-Book.prototype.toggleRead = function(e) {
+Book.prototype.toggleRead = function(e) {  //marcar o no como leido
     if (this.read) 
         e.target.textContent = 'Read';
     else
@@ -23,17 +28,11 @@ Book.prototype.toggleRead = function(e) {
     e.target.toggleAttribute('read');
 }
 
-let Book1 = new Book('1984', 'Orwell', '1940', 'dadsad', 'asd');
-
-let Book2 = new Book('Brave New World', 'Huxley', '1950', 'asdas', 'none');
-
+let Book1 = new Book('1984', 'Orwell', '1940', 'dadsad', 'https://asd');
+let Book2 = new Book('Brave New World', 'Huxley', '1950', 'asdas', 'https://none');
 myLibrary.push(Book1);
 myLibrary.push(Book2);
-
-window.addEventListener('load', () => myLibrary.forEach((book, index) => render(book, index)));
-
-markReadButtons.forEach(button => button.addEventListener('click', e => myLibrary[e.target.parentNode.getAttribute('data-index')].toggleRead(e)));
-deleteButtons.forEach(button => button.addEventListener('click', e => deleteBook(e)));
+window.addEventListener('load', () => myLibrary.forEach((book, index) => render(book, index))); //carga inicial del arreglo sobre la pagina
 
 function deleteBook(e) {
        const bookIndex = e.target.parentNode.getAttribute('data-index');
@@ -90,6 +89,7 @@ function render(elem, index) {  //creacion de los elementos HTML pertenecientes 
     markRead.addEventListener('click', e => myLibrary[index].toggleRead(e));
     edit.classList.add('edit');
     edit.textContent = "Edit";
+    edit.addEventListener('click', e => editBook(e))
     deleteButton.classList.add('delete');
     deleteButton.textContent = "Delete";
     deleteButton.addEventListener('click', e => deleteBook(e));
@@ -102,4 +102,64 @@ function render(elem, index) {  //creacion de los elementos HTML pertenecientes 
     console.log(book);
     //list.appendChild(document.createElement("br"));
     list.appendChild(book);
+}
+
+addBook.addEventListener('click', appendBook);
+
+function appendBook() {
+    form.reset();
+    formDiv.toggleAttribute('active');
+}
+
+function editBook(e) {
+    edit.status = true;
+    edit.id = e.target.parentNode.getAttribute('data-index');
+    setForm(e.target.parentNode.getAttribute('data-index'));
+    formDiv.toggleAttribute('active');
+    console.log("sda");
+}
+
+function setForm(bookIndex) {
+    form.childNodes.forEach(node => {
+        node.value = myLibrary[bookIndex[getAttribute('name')]];
+    });
+}
+
+cancel.addEventListener('click', () => {
+    edit.status = false;
+    formDiv.toggleAttribute('active');
+});
+
+submit.addEventListener('click', e => submitBook(e)) 
+
+function submitBook(e){
+    let formBook = new Book();
+    form.childNodes.forEach(node => formBook[node.getAttribute('name')] = node.value);
+    if (!formBook.image)
+        formBook.image = "https://dynamicmediainstitute.org/wp-content/themes/dynamic-media-institute/imagery/default-book.png";
+    else if (!formBook.image.startsWith("https://"))
+            formBook.image = "https://" + formBook.image;
+    if (edit.status)
+        edition(formBook, e);
+    else 
+        addition(formBook);
+}
+
+function addition(formBook) {
+    let bookIndex = myLibrary.indexOf(undefined);
+    if (bookIndex==-1)
+        bookIndex = myLibrary.length;
+    myLibrary[bookIndex] = formBook;
+    render(myLibrary[bookIndex], bookIndex);
+}
+
+function editions(formBook, e) {
+    const currentBook = e.target.parentNode.parentNode;
+    currentBook.getElementsByClassName('cover').textContent = formBook.image;
+    currentBook.getElementsByClassName('title').textContent = formBook.title;
+    currentBook.getElementsByClassName('author').textContent = formBook.author;
+    currentBook.getElementsByClassName('year').textContent = formBook.year;
+    currentBook.getElementsByClassName('description').textContent = formBook.description;
+    myLibrary[edit.id] = formBook;
+    edit.status = false;
 }
