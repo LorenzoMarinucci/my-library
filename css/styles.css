@@ -247,6 +247,10 @@ input {
     width: 360px;
     margin: 5px 10px 10px 8px;
     font-size: 12px;
+    border-color: lightgray;
+    border-radius: 3px;
+    border-style: solid;
+    border-width: 1px;
 }
 
 textarea {
@@ -254,6 +258,10 @@ textarea {
     margin: 5px 10px 10px 8px;
     resize: none;
     font-size: 12px;
+    border-color: lightgray;
+    border-radius: 3px;
+    border-style: solid;
+    border-width: 1px;
 }
 
 #formButtons {

@@ -28,8 +28,8 @@ Book.prototype.toggleRead = function(e) {  //marcar o no como leido
     e.target.toggleAttribute('read');
 }
 
-let Book1 = new Book('1984', 'Orwell', '1940', 'dadsad', 'https://asd');
-let Book2 = new Book('Brave New World', 'Huxley', '1950', 'asdas', 'https://none');
+let Book1 = new Book('1984', 'George Orwell', '1949', '1984 (en su versión original en inglés: Nineteen Eighty-Four) es una novela política de ficción distópica, escrita por George Orwell entre 1947 y 1948 y publicada el 8 de junio de 1949. La novela popularizó los conceptos del omnipresente y vigilante Gran Hermano o Hermano Mayor, de la notoria habitación 101, de la ubicua policía del Pensamiento y de la neolengua, adaptación del idioma inglés en la que se reduce y se transforma el léxico con fines represivos, basándose en el principio de que lo que no forma parte de la lengua, no puede ser pensado.', 'https://contentv2.tap-commerce.com/cover/large/9789875669284_1.jpg?id_com=1113');
+let Book2 = new Book('Brave New World', 'Aldous Huxley', '1932', 'Un mundo feliz (en inglés Brave New World) es la novela más famosa del escritor británico Aldous Huxley, publicada por primera vez en 1932. La novela es una distopía que anticipa el desarrollo en tecnología reproductiva, cultivos humanos e hipnopedia, manejo de las emociones por medio de drogas (soma) que, combinadas, cambian radicalmente la sociedad.', 'https://http2.mlstatic.com/book-brave-new-world-aldous-huxley-D_NQ_NP_819086-MLA27844935653_072018-F.jpg');
 myLibrary.push(Book1);
 myLibrary.push(Book2);
 window.addEventListener('load', () => myLibrary.forEach((book, index) => render(book, index))); //carga inicial del arreglo sobre la pagina
@@ -99,8 +99,6 @@ function render(elem, index) {  //creacion de los elementos HTML pertenecientes 
     options.appendChild(document.createElement("br"));
     options.appendChild(edit);
     book.appendChild(options);
-    console.log(book);
-    //list.appendChild(document.createElement("br"));
     list.appendChild(book);
 }
 
@@ -111,28 +109,28 @@ function appendBook() {
     formDiv.toggleAttribute('active');
 }
 
-function editBook(e) {
+function editBook(e) { 
     edit.status = true;
     edit.id = e.target.parentNode.getAttribute('data-index');
-    setForm(e.target.parentNode.getAttribute('data-index'));
+    edit.node = e.target.parentNode.parentNode;
+    setForm();
     formDiv.toggleAttribute('active');
-    console.log("sda");
 }
 
-function setForm(bookIndex) {
-    form.childNodes.forEach(node => {
-        node.value = myLibrary[bookIndex[getAttribute('name')]];
+function setForm() { //establece el form con los datos del libro
+    form.querySelectorAll('input, textarea').forEach(node => {
+        node.value = myLibrary[edit.id][node.getAttribute('name')];
     });
 }
 
-cancel.addEventListener('click', () => {
+cancel.addEventListener('click', () => { //cancelar el formulario
     edit.status = false;
     formDiv.toggleAttribute('active');
 });
 
 submit.addEventListener('click', e => submitBook(e)) 
 
-function submitBook(e){
+function submitBook(e){ //guarda informacion del formulario como objeto.
     let formBook = new Book();
     form.querySelectorAll('input, textarea').forEach(node => formBook[node.getAttribute('name')] = node.value);
     if (!formBook.image)
@@ -140,13 +138,13 @@ function submitBook(e){
     else if (!formBook.image.startsWith("https://"))
             formBook.image = "https://" + formBook.image;
     if (edit.status)
-        edition(formBook, e);
+        edition(formBook);
     else 
         addition(formBook);
     formDiv.toggleAttribute('active');
 }
 
-function addition(formBook) {
+function addition(formBook) { //agregar nuevo libro al array.
     let bookIndex = myLibrary.indexOf(undefined);
     if (bookIndex==-1)
         bookIndex = myLibrary.length;
@@ -154,13 +152,13 @@ function addition(formBook) {
     render(myLibrary[bookIndex], bookIndex);
 }
 
-function editions(formBook, e) {
-    const currentBook = e.target.parentNode.parentNode;
-    currentBook.getElementsByClassName('cover').textContent = formBook.image;
-    currentBook.getElementsByClassName('title').textContent = formBook.name;
-    currentBook.getElementsByClassName('author').textContent = formBook.author;
-    currentBook.getElementsByClassName('year').textContent = formBook.year;
-    currentBook.getElementsByClassName('description').textContent = formBook.description;
+function edition(formBook) { //editar el html.
+    edit.node.getElementsByClassName('cover')[0].setAttribute('src', formBook.image);
+    edit.node.getElementsByClassName('title')[0].childNodes[0].textContent = formBook.name;
+    edit.node.getElementsByClassName('author')[0].textContent = formBook.author;
+    console.log(edit.node);
+    edit.node.getElementsByClassName('year')[0].textContent = formBook.year;
+    edit.node.getElementsByClassName('description')[0].textContent = formBook.description;
     myLibrary[edit.id] = formBook;
     edit.status = false;
 }
