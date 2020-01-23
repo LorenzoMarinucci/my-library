@@ -134,15 +134,16 @@ submit.addEventListener('click', e => submitBook(e))
 
 function submitBook(e){
     let formBook = new Book();
-    form.childNodes.forEach(node => formBook[node.getAttribute('name')] = node.value);
+    form.querySelectorAll('input, textarea').forEach(node => formBook[node.getAttribute('name')] = node.value);
     if (!formBook.image)
-        formBook.image = "https://dynamicmediainstitute.org/wp-content/themes/dynamic-media-institute/imagery/default-book.png";
+        formBook.image = "https://www.boldstrokesbooks.com/assets/bsb/images/book-default-cover.jpg";
     else if (!formBook.image.startsWith("https://"))
             formBook.image = "https://" + formBook.image;
     if (edit.status)
         edition(formBook, e);
     else 
         addition(formBook);
+    formDiv.toggleAttribute('active');
 }
 
 function addition(formBook) {
@@ -156,7 +157,7 @@ function addition(formBook) {
 function editions(formBook, e) {
     const currentBook = e.target.parentNode.parentNode;
     currentBook.getElementsByClassName('cover').textContent = formBook.image;
-    currentBook.getElementsByClassName('title').textContent = formBook.title;
+    currentBook.getElementsByClassName('title').textContent = formBook.name;
     currentBook.getElementsByClassName('author').textContent = formBook.author;
     currentBook.getElementsByClassName('year').textContent = formBook.year;
     currentBook.getElementsByClassName('description').textContent = formBook.description;
