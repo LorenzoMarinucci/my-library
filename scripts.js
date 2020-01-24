@@ -1,4 +1,4 @@
-let myLibrary = [];
+let myLibrary;
     edit = {status: true, id: ""};
 const list = document.getElementById("list");
       deleteButtons = document.getElementsByClassName('delete');
@@ -10,13 +10,13 @@ const list = document.getElementById("list");
       form = document.querySelector('form');
       formDiv = document.getElementById('form');
 
-function Book(name, author, year, description, image) { //constructor del objeto libro
+function Book(name, author, year, description, image, read = false) { //constructor del objeto libro
     this.name = name;
     this.author = author;
     this.year = year;
     this.description = description;
     this.image = image;
-    this.read = false;
+    this.read = read;
 }
 
 Book.prototype.toggleRead = function(e) {  //marcar o no como leido
@@ -26,19 +26,32 @@ Book.prototype.toggleRead = function(e) {  //marcar o no como leido
         e.target.textContent = 'Read ✓';
     this.read = !this.read;
     e.target.toggleAttribute('read');
+    localStorage.setItem('array', JSON.stringify(myLibrary));
 }
 
-let Book1 = new Book('1984', 'George Orwell', '1949', '1984 (en su versión original en inglés: Nineteen Eighty-Four) es una novela política de ficción distópica, escrita por George Orwell entre 1947 y 1948 y publicada el 8 de junio de 1949. La novela popularizó los conceptos del omnipresente y vigilante Gran Hermano o Hermano Mayor, de la notoria habitación 101, de la ubicua policía del Pensamiento y de la neolengua, adaptación del idioma inglés en la que se reduce y se transforma el léxico con fines represivos, basándose en el principio de que lo que no forma parte de la lengua, no puede ser pensado.', 'https://contentv2.tap-commerce.com/cover/large/9789875669284_1.jpg?id_com=1113');
-let Book2 = new Book('Brave New World', 'Aldous Huxley', '1932', 'Un mundo feliz (en inglés Brave New World) es la novela más famosa del escritor británico Aldous Huxley, publicada por primera vez en 1932. La novela es una distopía que anticipa el desarrollo en tecnología reproductiva, cultivos humanos e hipnopedia, manejo de las emociones por medio de drogas (soma) que, combinadas, cambian radicalmente la sociedad.', 'https://http2.mlstatic.com/book-brave-new-world-aldous-huxley-D_NQ_NP_819086-MLA27844935653_072018-F.jpg');
-myLibrary.push(Book1);
-myLibrary.push(Book2);
-window.addEventListener('load', () => myLibrary.forEach((book, index) => render(book, index))); //carga inicial del arreglo sobre la pagina
+window.addEventListener('load', () => {
+    if (localStorage.length>0) {
+        myLibrary = JSON.parse(localStorage.getItem('array'));
+        myLibrary = myLibrary.map(book => (book) ? new Book(book.name, book.author, book.year, book.description, book.image, book.read) : null);
+    }
+    else {
+        let Book1 = new Book('1984', 'George Orwell', '1949', '1984 (en su versión original en inglés: Nineteen Eighty-Four) es una novela política de ficción distópica, escrita por George Orwell entre 1947 y 1948 y publicada el 8 de junio de 1949. La novela popularizó los conceptos del omnipresente y vigilante Gran Hermano o Hermano Mayor, de la notoria habitación 101, de la ubicua policía del Pensamiento y de la neolengua, adaptación del idioma inglés en la que se reduce y se transforma el léxico con fines represivos, basándose en el principio de que lo que no forma parte de la lengua, no puede ser pensado.', 'https://contentv2.tap-commerce.com/cover/large/9789875669284_1.jpg?id_com=1113');
+        let Book2 = new Book('Brave New World', 'Aldous Huxley', '1932', 'Un mundo feliz (en inglés Brave New World) es la novela más famosa del escritor británico Aldous Huxley, publicada por primera vez en 1932. La novela es una distopía que anticipa el desarrollo en tecnología reproductiva, cultivos humanos e hipnopedia, manejo de las emociones por medio de drogas (soma) que, combinadas, cambian radicalmente la sociedad.', 'https://http2.mlstatic.com/book-brave-new-world-aldous-huxley-D_NQ_NP_819086-MLA27844935653_072018-F.jpg');
+        myLibrary = []; 
+        myLibrary.push(Book1);
+        myLibrary.push(Book2);
+        localStorage.setItem('array', JSON.stringify(myLibrary));
+    }
+    myLibrary.forEach((book, index) => render(book, index));
+}) //carga inicial del arreglo sobre la pagina
+
 
 function deleteBook(e) {
        const bookIndex = e.target.parentNode.getAttribute('data-index');
              node = e.target.parentNode.parentNode; // nodo book;
-       delete myLibrary[bookIndex];
+       myLibrary[bookIndex] = null;
        node.parentNode.removeChild(node);
+       localStorage.setItem('array', JSON.stringify(myLibrary));
 }
 
 function addBookToLibrary() {  //función temporal para añadir libros.
@@ -52,6 +65,7 @@ function addBookToLibrary() {  //función temporal para añadir libros.
 }
 
 function render(elem, index) {  //creacion de los elementos HTML pertenecientes a cada libro
+    if (elem) {
     let book = document.createElement('div');
     book.classList.add('book');
     let img = document.createElement('img');
@@ -85,7 +99,12 @@ function render(elem, index) {  //creacion de los elementos HTML pertenecientes 
     options.classList.add('options');
     options.setAttribute('data-index', index);
     markRead.classList.add('markRead');
-    markRead.textContent = 'Read';
+    if (elem.read) {
+        markRead.textContent = 'Read ✓';
+        markRead.toggleAttribute('read');
+    }
+    else
+        markRead.textContent = 'Read';
     markRead.addEventListener('click', e => myLibrary[index].toggleRead(e));
     edit.classList.add('edit');
     edit.textContent = "Edit";
@@ -100,6 +119,7 @@ function render(elem, index) {  //creacion de los elementos HTML pertenecientes 
     options.appendChild(edit);
     book.appendChild(options);
     list.appendChild(book);
+    }
 }
 
 addBook.addEventListener('click', appendBook);
@@ -142,10 +162,11 @@ function submitBook(e){ //guarda informacion del formulario como objeto.
     else 
         addition(formBook);
     formDiv.toggleAttribute('active');
+    localStorage.setItem('array', JSON.stringify(myLibrary));
 }
 
 function addition(formBook) { //agregar nuevo libro al array.
-    let bookIndex = myLibrary.indexOf(undefined);
+    let bookIndex = myLibrary.indexOf(null);
     if (bookIndex==-1)
         bookIndex = myLibrary.length;
     myLibrary[bookIndex] = formBook;
@@ -159,6 +180,12 @@ function edition(formBook) { //editar el html.
     console.log(edit.node);
     edit.node.getElementsByClassName('year')[0].textContent = formBook.year;
     edit.node.getElementsByClassName('description')[0].textContent = formBook.description;
+    formBook.read = myLibrary[edit.id].read;
     myLibrary[edit.id] = formBook;
     edit.status = false;
 }
+
+//FIREBASE
+
+
+
