@@ -1,55 +1,78 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>My Library</title>
-        <link rel="icon" href="https://img.icons8.com/officel/16/000000/book.png">
-        <link rel="stylesheet" href="css/reset.css" type="text/css" media="all"/>
-        <link rel="stylesheet" href="css/styles.css" type="text/css" media="all"/>
-    </head>
-    <body>
-        <div id="container">
-            <div id="header">
-                <h1>My Library</h1>
-                <button id="add">Add Book</button>
-                <hr>
-            </div>
-            <div id="list">
-        
-            </div>
+  <head>
+    <meta charset="UTF-8" />
+    <title>My Library</title>
+    <link rel="icon" href="https://img.icons8.com/officel/16/000000/book.png" />
+    <link rel="stylesheet" href="css/reset.css" type="text/css" media="all" />
+    <link rel="stylesheet" href="css/styles.css" type="text/css" media="all" />
+  </head>
+  <body>
+    <div id="container">
+      <div id="header">
+        <h1>My Library</h1>
+        <button id="add">Add Book</button>
+        <hr />
+      </div>
+      <div id="list"></div>
+    </div>
+    <footer>
+      <div id="info">
+        <div id="git">
+          <a href="https://github.com/LorenzoMarinucci" target="_blank"
+            ><img
+              class="contact"
+              src="https://img.icons8.com/ios-filled/50/000000/github.png"
+          /></a>
+          LorenzoMarinucci
         </div>
-        <footer>
-            <div id="info">
-            <div id="git">
-                <a href="https://github.com/LorenzoMarinucci" target="_blank"><img class="contact" src="https://img.icons8.com/ios-filled/50/000000/github.png"></a> LorenzoMarinucci
-            </div>               
-            <div id="mail">
-            <a href="mailto:lorenmarinucci@gmail.com"><img class="contact" src="https://img.icons8.com/plasticine/100/000000/gmail.png"></a>lorenmarinucci@gmail.com
-            </div>
+        <div id="mail">
+          <a href="mailto:lorenmarinucci@gmail.com"
+            ><img
+              class="contact"
+              src="https://img.icons8.com/plasticine/100/000000/gmail.png"/></a
+          >lorenmarinucci@gmail.com
         </div>
-        </footer>
+      </div>
+    </footer>
 
-        <div id="form">
-            <div id="background">
-            <form action="">
-                <label>Title</label>
-                <input type="text" placeholder="Brave New World" name="name">
-                <label>Author</label>
-                <input type="text" placeholder="Aldous Huxley" name="author">
-                <label>Published</label>
-                <input type="number" placeholder="1932" name="year">
-                <label>Description</label>
-                <textarea rows="8" placeholder="Brave New World is a dystopian novel by English author Aldous Huxley, written in 1931 and published in 1932." name="description"></textarea>
-                <label>Link to cover image</label>
-                <input type="text" name="image">
-            </form>
-            <div id="formButtons">
-                <button id="cancel">Cancel</button>
-                <button id="submit">Submit</button>
-            </div>
-            </div>
-        </div>
+    <div id="form">
+      <div id="background">
+        <form action="">
+          <label>Title*</label>
+          <input
+            type="text"
+            required
+            maxlength="30"
+            placeholder="Brave New World"
+            name="name"
+          />
+          <label>Author</label>
+          <input
+            type="text"
+            placeholder="Aldous Huxley"
+            name="author"
+            maxlength="50"
+          />
+          <label>Published</label>
+          <input type="number" placeholder="1932" name="year" max="2020" />
+          <label>Description</label>
+          <textarea
+            rows="8"
+            placeholder="Brave New World is a dystopian novel by English author Aldous Huxley, written in 1931 and published in 1932."
+            name="description"
+            maxlength="400"
+          ></textarea>
+          <label>Link to cover image</label>
+          <input type="text" name="image" />
+          <div id="formButtons">
+            <button id="cancel">Cancel</button>
+            <button id="submit">Submit</button>
+          </div>
+        </form>
+      </div>
+    </div>
 
-        <script src="scripts.js"></script>
-    </body>
+    <script src="scripts.js"></script>
+  </body>
 </html>

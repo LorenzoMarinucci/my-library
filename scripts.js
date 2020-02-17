@@ -169,26 +169,34 @@ function setForm() {
 cancel.addEventListener("click", () => {
   //cancelar el formulario
   edit.status = false;
+  event.preventDefault();
   formDiv.toggleAttribute("active");
 });
 
 submit.addEventListener("click", e => submitBook(e));
 
 function submitBook(e) {
-  //guarda informacion del formulario como objeto.
-  let formBook = new Book();
-  form
-    .querySelectorAll("input, textarea")
-    .forEach(node => (formBook[node.getAttribute("name")] = node.value));
-  if (!formBook.image)
-    formBook.image =
-      "https://www.boldstrokesbooks.com/assets/bsb/images/book-default-cover.jpg";
-  else if (!formBook.image.startsWith("https://"))
-    formBook.image = "https://" + formBook.image;
-  if (edit.status) edition(formBook);
-  else addition(formBook);
-  formDiv.toggleAttribute("active");
-  localStorage.setItem("array", JSON.stringify(myLibrary));
+  if (
+    !Array.from(form.querySelectorAll("input, textarea")).find(
+      elem => !elem.checkValidity()
+    )
+  ) {
+    event.preventDefault();
+    //guarda informacion del formulario como objeto.
+    let formBook = new Book();
+    form
+      .querySelectorAll("input, textarea")
+      .forEach(node => (formBook[node.getAttribute("name")] = node.value));
+    if (!formBook.image)
+      formBook.image =
+        "https://www.boldstrokesbooks.com/assets/bsb/images/book-default-cover.jpg";
+    else if (!formBook.image.startsWith("https://"))
+      formBook.image = "https://" + formBook.image;
+    if (edit.status) edition(formBook);
+    else addition(formBook);
+    formDiv.toggleAttribute("active");
+    localStorage.setItem("array", JSON.stringify(myLibrary));
+  }
 }
 
 function addition(formBook) {
