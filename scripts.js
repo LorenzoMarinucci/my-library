@@ -1,5 +1,5 @@
 let myLibrary;
-edit = { status: true, id: "" };
+edit = { status: false, id: "" };
 const list = document.getElementById("list");
 deleteButtons = document.getElementsByClassName("delete");
 editButtons = document.getElementsByClassName("edit");
